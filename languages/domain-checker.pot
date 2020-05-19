@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Domain Checker\n"
-"POT-Creation-Date: 2020-05-19 00:20+0700\n"
+"POT-Creation-Date: 2020-05-19 23:58+0700\n"
 "PO-Revision-Date: 2020-03-22 13:48+0700\n"
 "Last-Translator: \n"
 "Language-Team: Wahyu Wibowo <hello@wahyuwibowo.com>\n"
@@ -17,8 +17,64 @@ msgstr ""
 "_n_noop:1,2;_c;_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;"
 "esc_html_x:1,2c\n"
-"X-Poedit-SearchPath-0: down-payment-calculator.php\n"
+"X-Poedit-SearchPath-0: domain-checker.php\n"
 
-#: down-payment-calculator.php:72
-msgid "Loading..."
+#: domain-checker.php:59 domain-checker.php:66
+msgid "Domain Checker Settings"
+msgstr ""
+
+#: domain-checker.php:59
+msgid "Domain Checker"
+msgstr ""
+
+#: domain-checker.php:71
+msgid "Namecheap Username"
+msgstr ""
+
+#: domain-checker.php:75
+msgid "Namecheap API User"
+msgstr ""
+
+#: domain-checker.php:79
+msgid "Namecheap API Key"
+msgstr ""
+
+#: domain-checker.php:83
+msgid "Sandbox Environment"
+msgstr ""
+
+#: domain-checker.php:86
+msgid "Use Namecheap Sandbox Environment."
+msgstr ""
+
+#: domain-checker.php:91
+msgid "Save Changes"
+msgstr ""
+
+#: domain-checker.php:149
+msgid "Checking..."
+msgstr ""
+
+#: domain-checker.php:155
+msgid "Enter domain name"
+msgstr ""
+
+#: domain-checker.php:163
+msgid "Check Availability"
+msgstr ""
+
+#: domain-checker.php:227
+msgid "Sorry, there is an issue with Namecheap API connection!"
+msgstr ""
+
+#: domain-checker.php:230
+msgid "Please enter domain name and select at least 1 extension!"
+msgstr ""
+
+#: domain-checker.php:239
+msgid "Available"
+msgstr ""
+
+#: domain-checker.php:239
+msgid "Not Available"
 msgstr ""

@@ -223,6 +223,8 @@ class Domain_Checker {
 
                     $result .= '</table>';
                 }
+            } else {
+                $result = __( 'Sorry, there is an issue with Namecheap API connection!', 'domain-checker' );
             }
         } else {
             $result = __( 'Please enter domain name and select at least 1 extension!', 'domain-checker' );
