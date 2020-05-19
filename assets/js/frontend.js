@@ -1,19 +1,28 @@
 jQuery(document).ready(function($) {
     "use strict";
     
-    $(document).on('click', '.calculate-btn', function(){
+    $(document).on('click', '#dc-domain-check-button', function(){
+        var t = $(this);
+        var original_button = t.text();
+        
         var data = { 
-            action         : 'wpsc_get_content',
-            nonce          : Down_Payment_Calculator.nonce,
-            categories     : $('.categories').val()
+            action      : 'dc_check_domain',
+            nonce       : Domain_Checker.nonce,
+            domain_name : $('#dc-domain-name').val()
         };
         
-        $.post(Down_Payment_Calculator.ajaxurl, data, function(res){
+        t.text(Domain_Checker.checking);
+        t.attr('disabled', 'disabled');
+        
+        $.post(Domain_Checker.ajaxurl, data, function(res){
             if (res.success) {
-                $('#block-calendar').html(res.data.content);
+                $('#dc-result').html(res.data.content);
             } else {
                 console.log(res);
             }
+            
+            t.text(original_button);
+            t.removeAttr('disabled');
         }).fail(function(xhr, textStatus, e) {
             console.log(xhr.responseText);
         });
