@@ -6,8 +6,8 @@
     margin-bottom: 10px;
 }
 
-.dc-input-container input {
-    min-width: 300px;
+.dc-input-container input[type="text"] {
+    min-width: 200px;
 }
 
 .dc-button-container {

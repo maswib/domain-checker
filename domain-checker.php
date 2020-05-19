@@ -152,8 +152,14 @@ class Domain_Checker {
     
     public function add_shortcode() {
         $output = '<div class="dc-container">';
-        $output .= sprintf( '<div class="dc-label">%s</div>', __( 'Enter domain name (without extension)', 'domain-checker' ) );
-        $output .= '<div class="dc-input-container"><input id="dc-domain-name" value="" placeholder="Example: wahyuwibowo"></div>';
+        $output .= sprintf( '<div class="dc-label">%s</div>', __( 'Enter domain name', 'domain-checker' ) );
+        $output .= '<div class="dc-input-container">';
+        $output .= '<input type="text" id="dc-domain-name" value="" placeholder="Example: wahyuwibowo">';
+        $output .= '<input type="hidden" id="dc-tlds" value="">';
+        $output .= '<label><input type="checkbox" class="dc-tld" value=".com" checked="checked"> .com</label>';
+        $output .= '<label><input type="checkbox" class="dc-tld" value=".net" checked="checked"> .net</label>';
+        $output .= '<label><input type="checkbox" class="dc-tld" value=".org" checked="checked"> .org</label>';
+        $output .= '</div>';
         $output .= sprintf( '<div class="dc-button-container"><button id="dc-domain-check-button">%s</button></div>', __( 'Check Availability', 'domain-checker' ) );
         $output .= '<div id="dc-result"></div>';
         $output .= '</div>';
@@ -165,7 +171,7 @@ class Domain_Checker {
         check_ajax_referer( 'domain_checker', 'nonce' );
         
         $domain_name = sanitize_text_field( $_POST['domain_name'] );
-        $tlds = array( '.com', '.net', '.org' );
+        $tlds = explode( ',', sanitize_text_field( $_POST['tlds'] ) );
         
         $options = get_option( 'domain_checker_options', $this->default_options );
         
@@ -181,44 +187,45 @@ class Domain_Checker {
             $domain_names[] = $domain_name . $tld;
         }
         
-        $api_url = add_query_arg( array(
-            'ApiUser'    => $options['namecheap_apiuser'],
-            'ApiKey'     => $options['namecheap_apikey'],
-            'UserName'   => $options['namecheap_username'],
-            'Command'    => 'namecheap.domains.check',
-            'ClientIp'   => isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : "127.0.0.1",
-            'DomainList' => implode( ',', $domain_names )
-        ), $api_url );
-        
-        $args = array(
-            'timeout'     => 100,
-            'sslverify' => false
-        ); 
-        
-        $response = wp_remote_get( $api_url, $args );
-        
         $result = '';
         
-        if ( is_array( $response ) && ! is_wp_error( $response ) ) {
-            $xml = simplexml_load_string( $response['body'] );
-            
-            if ( $xml && $xml instanceof SimpleXMLElement ) {
-                $domain_check_results = $xml->CommandResponse->DomainCheckResult;
-                
-                $result .= '<table>';
-                
-                foreach ( $domain_check_results as $domain_check_result ) {
-                    $result .= '<tr>';
-                    $result .= sprintf( '<td>%s</td>', (string) $domain_check_result->attributes()->Domain );
-                    $result .= sprintf( '<td>%s</td>', $this->availability_status( (string) $domain_check_result->attributes()->Available ) );
-                    $result .= '</tr>';
+        if ( '' !== $domain_name && count( $domain_names ) > 0 ) {
+            $api_url = add_query_arg( array(
+                'ApiUser'    => $options['namecheap_apiuser'],
+                'ApiKey'     => $options['namecheap_apikey'],
+                'UserName'   => $options['namecheap_username'],
+                'Command'    => 'namecheap.domains.check',
+                'ClientIp'   => isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : "127.0.0.1",
+                'DomainList' => implode( ',', $domain_names )
+            ), $api_url );
+
+            $args = array(
+                'timeout'     => 100,
+                'sslverify' => false
+            ); 
+
+            $response = wp_remote_get( $api_url, $args );
+
+            if ( is_array( $response ) && ! is_wp_error( $response ) ) {
+                $xml = simplexml_load_string( $response['body'] );
+
+                if ( $xml && $xml instanceof SimpleXMLElement ) {
+                    $domain_check_results = $xml->CommandResponse->DomainCheckResult;
+
+                    $result .= '<table>';
+
+                    foreach ( $domain_check_results as $domain_check_result ) {
+                        $result .= '<tr>';
+                        $result .= sprintf( '<td>%s</td>', (string) $domain_check_result->attributes()->Domain );
+                        $result .= sprintf( '<td>%s</td>', $this->availability_status( (string) $domain_check_result->attributes()->Available ) );
+                        $result .= '</tr>';
+                    }
+
+                    $result .= '</table>';
                 }
-                //$result .= '<tr>';
-                //$result .= sprintf( '<td>%s</td>', (string) $domain_check_result->attributes()->Domain );
-                //$result .= sprintf( '<td>%s</td>', $this->availability_status( (string) $domain_check_result->attributes()->Available ) );
-                //$result .= '</tr>';
-                $result .= '</table>';
             }
+        } else {
+            $result = __( 'Please enter domain name and select at least 1 extension!', 'domain-checker' );
         }
         
         wp_send_json_success( array( 
