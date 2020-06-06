@@ -5,7 +5,7 @@
  * Description: Check domain name availability from your WordPress site using Namecheap API.
  * Author: Wahyu Wibowo
  * Author URI: https://wahyuwibowo.com
- * Version: 1.0
+ * Version: 1.0.1
  * Text Domain: domain-checker
  * Domain Path: languages
  */
@@ -140,7 +140,7 @@ class Domain_Checker {
     }
     
     public function enqueue_scripts() {
-        wp_enqueue_script( 'dc-frontend', plugin_dir_url( __FILE__ ) . 'assets/js/frontend.js', array( 'jquery' ) );
+        wp_register_script( 'dc-frontend', plugin_dir_url( __FILE__ ) . 'assets/js/frontend.js', array( 'jquery' ), false, true );
         wp_enqueue_style( 'dc-frontend', plugin_dir_url( __FILE__ ) . 'assets/css/frontend.css' );
         
         wp_localize_script( 'dc-frontend', 'Domain_Checker', array(
@@ -151,6 +151,8 @@ class Domain_Checker {
     }
     
     public function add_shortcode() {
+        wp_enqueue_script( 'dc-frontend' );
+        
         $output = '<div class="dc-container">';
         $output .= sprintf( '<div class="dc-label">%s</div>', __( 'Enter domain name', 'domain-checker' ) );
         $output .= '<div class="dc-input-container">';
