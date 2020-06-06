@@ -4,7 +4,7 @@ WordPress plugin to help you check domain availability using Namecheap API.
 
 ## Installation
 
-Simply download [the latest release](https://github.com/maswib/domain-checker/releases/download/1.0/domain-checker.zip) and upload the zip (domain-checker.zip) under your WordPress dashboard at **Plugins > Add New**.
+Simply download [the latest release](https://github.com/maswib/domain-checker/releases/download/1.0/domain-checker.zip) and upload the zip (domain-checker.zip) under your WordPress dashboard at **Plugins > Add New**. Dont't forget to activate the plugin.
 
 ## Usage
 
