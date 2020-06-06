@@ -13,3 +13,7 @@ Use this shortcode below to show the domain checker on WordPress posts/pages.
 ```
 [domain_checker]
 ```
+
+## Demo
+
+You can look the live demo at my personal blog [here](https://wahyuwibowo.com/projects/domain-checker/).
