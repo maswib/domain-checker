@@ -8,7 +8,7 @@ Simply download [the latest release](https://github.com/maswib/domain-checker/re
 
 ## Usage
 
-Use this shortcode below to show the domain checker on WordPress posts/pages.
+First, go to **Settings > Domain Checker** and enter your **Namecheap Username**, **API User** and **API Key**. Then, use this shortcode below to show the domain checker on WordPress posts/pages.
 
 ```
 [domain_checker]
